@@ -1,0 +1,107 @@
+// misc
+
+.text-mono {
+  font-family: 'Courier New', monospace;
+}
+
+.no-margin-bottom, .panel-heading {
+  margin-bottom: 0;
+}
+
+a[href^='http://'], a[href^='https://'], a[href^='//'] {
+  &:after {
+    .fa-icon();
+    margin-left: 2px;
+    content: @fa-var-external-link;
+    font-size: 0.8rem;
+    vertical-align: 60%;
+  }
+}
+
+@external-link-icon-color: #193242;
+@fa-var-external-link: "\f08e";
+
+.fa-icon() {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// settings form
+
+form {
+  .panel-body > .form-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .checkbox-label {
+    cursor: pointer;
+  }
+
+  .panel-heading > small {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #969696;
+  }
+}
+
+// TODO create PR to NodeBB for this
+
+.btn[disabled]:active {
+  background-image: none;
+  box-shadow: none;
+}
+
+.btn-danger[disabled]:active {
+  background-color: #e51c23;
+}
+.btn-default[disabled]:active {
+  background-color: #fff;
+}
+.btn-info[disabled]:active {
+  background-color: #9C27B0;
+}
+.btn-success[disabled]:active {
+  background-color: #4CAF50;
+}
+.btn-warning[disabled]:active {
+  background-color: #ff9800;
+}
+
+// sets
+
+.list-group-item > h3 {
+  margin-top: 0;
+
+  > .small {
+    text-transform: uppercase;
+  }
+}
+
+.sets-container {
+  .set-container {
+    &.busy {
+      box-shadow: 0 1px 3px 1px #00C4FF;
+    }
+
+    .preview-block {
+      width: 100%;
+      max-width: 500px;
+
+      > img {
+        max-height: 180px;
+      }
+    }
+  }
+
+  .panel-heading > small {
+    margin-left: 0.5rem;
+    font-size: 0.8em;
+    font-weight: bold;
+    font-style: italic;
+    color: #555555;
+  }
+}

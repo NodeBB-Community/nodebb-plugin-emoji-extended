@@ -1,0 +1,43 @@
+.emoji {
+  display: none; // hide while styles are not loaded to prevent huge image sizes (svg for example)
+}
+
+.emoji-completion {
+  // these are recommendations, still able to overwrite within sets
+  max-height: 20px;
+  max-width: 20px;
+}
+
+.emoji-link {
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#emoji-legal {
+  > *:first-child {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .emoji-legal-container {
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    > div {
+      > *:first-child {
+        margin-top: 0;
+      }
+      > *:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .legal-license {
+    white-space: pre;
+    font-family: monospace;
+    word-wrap: break-word;
+  }
+}

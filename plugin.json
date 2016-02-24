@@ -1,0 +1,25 @@
+{
+  "id": "@{name}",
+  "version": "@{>version}",
+  "name": "@{nbbpm.name}",
+  "description": "@{description}",
+  "library": "@{main}",
+  "less": ["public/styles/main.less"],
+  "scripts": ["public/scripts/"],
+  "staticDirs": {
+    "previews": "public/static/previews/", "scripts": "public/static/scripts/", "styles": "public/static/styles/"
+  },
+  "languages": "public/locales",
+  "defaultLang": "en_US",
+  "templates": "public/templates",
+  "hooks": [
+    {"hook": "static:app.load", "method": "init"},
+    {"hook": "filter:admin.header.build", "method": "adminMenu"},
+    {"hook": "filter:parse.raw", "method": "parse", "priority": 9},
+    {"hook": "filter:parse.post", "method": "parsePostData", "priority": 9},
+    {"hook": "filter:email.modify", "method": "email"},
+    {"hook": "action:plugin.deactivate", "method": "pluginDeactivation"},
+    {"hook": "action:plugin.activate", "method": "pluginActivation"},
+    {"hook": "filter:composer.formatting", "method": "composerFormatting", "priority": 19}
+  ]
+}
