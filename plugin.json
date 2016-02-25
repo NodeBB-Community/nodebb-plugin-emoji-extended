@@ -6,9 +6,7 @@
   "library": "@{main}",
   "less": ["public/styles/main.less"],
   "scripts": ["public/scripts/"],
-  "staticDirs": {
-    "previews": "public/static/previews/", "scripts": "public/static/scripts/", "styles": "public/static/styles/"
-  },
+  "staticDirs": {"scripts": "public/static/scripts/", "styles": "public/static/styles/"},
   "languages": "public/locales",
   "defaultLang": "en_US",
   "templates": "public/templates",
