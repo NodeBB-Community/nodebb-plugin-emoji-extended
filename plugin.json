@@ -12,12 +12,12 @@
   "templates": "public/templates",
   "hooks": [
     {"hook": "static:app.load", "method": "init"},
-    {"hook": "filter:admin.header.build", "method": "adminMenu"},
+    {"hook": "action:plugin.activate", "method": "pluginActivation"},
+    {"hook": "action:plugin.deactivate", "method": "pluginDeactivation"},
     {"hook": "filter:parse.raw", "method": "parse", "priority": 9},
     {"hook": "filter:parse.post", "method": "parsePostData", "priority": 9},
     {"hook": "filter:email.modify", "method": "email"},
-    {"hook": "action:plugin.deactivate", "method": "pluginDeactivation"},
-    {"hook": "action:plugin.activate", "method": "pluginActivation"},
+    {"hook": "filter:admin.header.build", "method": "adminMenu"},
     {"hook": "filter:composer.formatting", "method": "composerFormatting", "priority": 19}
   ]
 }

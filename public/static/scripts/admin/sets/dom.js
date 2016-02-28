@@ -1,8 +1,9 @@
 define("@{type.name}/@{id}/admin/sets/container", [
   "@{type.name}/@{id}/debug",
   "@{type.name}/@{id}/admin/sets/data",
-  "@{type.name}/@{id}/admin/sets/actions"
-], function (debug, data, actions) {
+  "@{type.name}/@{id}/admin/sets/actions",
+  "@{type.name}/@{id}/admin/sets/options"
+], function (debug, data, actions, options) {
   "use strict";
 
   var busy = {};
@@ -19,6 +20,9 @@ define("@{type.name}/@{id}/admin/sets/container", [
   var update = filesModifyGen(actions.mayUpdate, actions.update);
   var activate = activeSetsModifyGen(actions.mayActivate, actions.activate);
   var deactivate = activeSetsModifyGen(actions.mayDeactivate, actions.deactivate);
+  var optionsSave = optionsModifyGen(options.save);
+  var optionsReset = optionsModifyGen(options.reset);
+  var optionsPurge = optionsModifyGen(options.purge);
 
   /*==================================================== Exports  ====================================================*/
 
@@ -32,7 +36,6 @@ define("@{type.name}/@{id}/admin/sets/container", [
   /*------------------------------------------------- attach actions -------------------------------------------------*/
 
   function prepareAllContainer() {
-    $activeBlock.find(".active-set-container").each(prepareActiveContainer);
     $availableBlock.find(".available-set-container").each(prepareAvailableContainer);
     $installBlock.find(".install-set-container").each(prepareInstallContainer);
   }
@@ -41,7 +44,17 @@ define("@{type.name}/@{id}/admin/sets/container", [
     var $container = $(container);
     var setId = $container.data("set-id"), s = getInstalledSetData(setId);
 
+    options.reset($container, s);
     $container.find(".set-deactivate").removeAttr("disabled").click(function (e) { deactivate($(e.target), s); });
+    $container.find(".set-options-save").removeAttr("disabled").click(function (e) {
+      optionsSave($container, $(e.target), s);
+    });
+    $container.find(".set-options-reset").removeAttr("disabled").click(function (e) {
+      optionsReset($container, $(e.target), s);
+    });
+    $container.find(".set-options-purge").removeAttr("disabled").click(function (e) {
+      optionsPurge($container, $(e.target), s);
+    });
 
     return $container;
   }
@@ -69,6 +82,16 @@ define("@{type.name}/@{id}/admin/sets/container", [
   }
 
   /*---------------------------------------------------- actions  ----------------------------------------------------*/
+
+  //--- options
+
+  function optionsModifyGen(fn) {
+    return function ($container, $btn, s) {
+      if (busy[s.id]) { return; }
+      markBusy($btn, s);
+      return fn($container, s).always(function () { markReady($btn, s); });
+    };
+  }
 
   //--- files
 
@@ -121,7 +144,7 @@ define("@{type.name}/@{id}/admin/sets/container", [
     var $container = $activeTemplate.clone().attr("data-set-id", s.id);
 
     $container.find(".description").html(s.description || "");
-    $container.find(".panel-heading").html(s.name + " <small>" + s.module + "</small>");
+    $container.find(".active-set-heading").html(s.name + " <small>" + s.module + "</small>");
 
     if (s.preview) {
       $container.find(".preview-block > img").attr("src", s.preview);
@@ -136,6 +159,16 @@ define("@{type.name}/@{id}/admin/sets/container", [
     } else {
       $container.find(".set-update").removeAttr("disabled").click(function (e) { update($(e.target), s); });
     }
+
+    if (s.hasMapping) {
+      $container.find(".option-label-mapping").attr("for", "@{id}-active-mapping-" + s.id);
+      $container.find(".option-mapping").attr("id", "@{id}-active-mapping-" + s.id);
+    } else {
+      $container.find(".options-mapping").remove();
+    }
+
+    $container.find(".option-label-excludes").attr("for", "@{id}-active-excludes-" + s.id);
+    $container.find(".option-excludes").attr("id", "@{id}-active-excludes-" + s.id);
 
     return prepareActiveContainer(i, $container);
   }

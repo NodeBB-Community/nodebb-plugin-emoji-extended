@@ -1,14 +1,17 @@
 <ul class="nav nav-pills">
-	<li class="active"><a href="#settings" data-toggle="tab" aria-expanded="false">[[@{iD}:tabs.settings]]</a></li>
-	<li><a href="#sets" data-toggle="tab" aria-expanded="true">[[@{iD}:tabs.sets]]</a></li>
-	<li><a href="#download" data-toggle="tab" aria-expanded="true">[[@{iD}:tabs.download]]</a></li>
+  <li class="active"><a href="#settings" data-toggle="tab" aria-expanded="false">[[@{iD}:tabs.settings]]</a></li>
+  <li><a href="#sets" data-toggle="tab" aria-expanded="true">[[@{iD}:tabs.sets]]</a></li>
+  <li><a href="#download" data-toggle="tab" aria-expanded="true">[[@{iD}:tabs.download]]</a></li>
 </ul>
 
 <div class="tab-content">
   <div class="tab-pane fade active in" id="settings">
     <form class="form-horizontal" id="@{id}-settings">
       <div class="panel panel-default">
-        <h2 class="panel-heading">[[@{iD}:name]] <small>[[@{iD}:version]]</small> / [[@{iD}:settings]]</h2>
+        <h2 class="panel-heading">[[@{iD}:name]]
+          <small>[[@{iD}:version]]</small>
+          / [[@{iD}:settings]]
+        </h2>
 
         <div class="panel-body">
           <div class="form-group">
@@ -57,7 +60,7 @@
           <div class="row">
             <div class="col-xs-12 col-md-4">
               <button type="submit" class="btn btn-primary btn-block" id="@{id}-settings-save" accesskey="s">
-                <i class="fa fa-fw fa-save"></i> [[plugins:actions.save.plain]]
+                <i class="fa fa-fw fa-save"></i> [[plugins:actions.save]]
               </button>
             </div>
             <div class="col-xs-12 col-md-4">
@@ -89,12 +92,13 @@
       <div id="active-set-template">
         <div class="set-container active-set-container"><!-- insert id as data-set-id -->
           <div class="panel panel-default">
-            <h3 class="panel-heading"><!-- insert heading --></h3>
+            <h3 class="panel-heading active-set-heading"><!-- insert heading --></h3>
 
             <div class="panel-body">
               <div class="row">
                 <div class="col-xs-12 description-container"><!-- add class col-sm-7 if preview exists -->
-                  <div class="well well-sm no-margin-bottom description"><!-- remove class no-margin-bottom if preview exist -->
+                  <div class="well well-sm description no-margin-bottom">
+                    <!-- remove class no-margin-bottom if preview exist -->
                     <!-- insert description -->
                   </div>
                 </div>
@@ -104,6 +108,54 @@
                   </div>
                 </div>
               </div>
+              <form class="form form-horizontal">
+                <div class="panel panel-default no-margin-bottom">
+                  <h4 class="panel-heading">[[@{iD}:set.options]]</h4>
+                  <div class="panel-body">
+                    <div class="form-group options-mapping"><!-- remove if !hasMapping -->
+                      <label for="@{id}-active-mapping"
+                             class="col-xs-12 col-sm-6 col-md-4 control-label checkbox-label option-label-mapping">
+                        <!-- replace for set-specific -->
+                        [[@{iD}:set.options.mapping]]
+                      </label>
+                      <div class="col-xs-12 col-sm-6 col-md-8">
+                        <input id="@{id}-active-mapping" class="form-checkbox option-mapping" type="checkbox"
+                               data-key="mapping"/><!-- replace id set-specific -->
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="@{id}-active-excludes"
+                             class="col-xs-12 col-sm-6 col-md-4 control-label option-label-excludes">
+                        <!-- replace for set-specific -->
+                        [[@{iD}:set.options.excludes]]
+                      </label>
+                      <div class="col-xs-12 col-sm-6 col-md-8">
+                        <input id="@{id}-active-excludes" class="form-control option-excludes" data-key="excludes"/>
+                        <!-- replace id set-specific -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel-footer">
+                    <div class="row">
+                      <div class="col-xs-12 col-md-4">
+                        <a class="btn btn-primary btn-block btn-xs set-options-save" disabled>
+                          <i class="fa fa-fw fa-save"></i> [[plugins:actions.save]]
+                        </a>
+                      </div>
+                      <div class="col-xs-12 col-md-4">
+                        <a class="btn btn-warning btn-block btn-xs set-options-reset" disabled>
+                          <i class="fa fa-fw fa-eraser"></i> [[plugins:actions.reset]]
+                        </a>
+                      </div>
+                      <div class="col-xs-12 col-md-4">
+                        <a class="btn btn-danger btn-block btn-xs set-options-purge" disabled>
+                          <i class="fa fa-fw fa-history"></i> [[plugins:actions.purge]]
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
 
             <!-- TODO add set-specific options: mapping, excludes -->
@@ -131,60 +183,65 @@
 
     <div id="available-sets-container" class="sets-container">
       <!-- BEGIN sets.installed -->
-        <div class="panel panel-default set-container available-set-container<!-- IF sets.installed.active --> hidden<!-- ENDIF sets.installed.active -->"
-             data-set-id="{sets.installed.id}">
-          <h3 class="panel-heading">{sets.installed.name} <small>{sets.installed.module}</small></h3>
+      <div
+          class="panel panel-default set-container available-set-container<!-- IF sets.installed.active --> hidden<!-- ENDIF sets.installed.active -->"
+          data-set-id="{sets.installed.id}">
+        <h3 class="panel-heading">{sets.installed.name}
+          <small>{sets.installed.module}</small>
+        </h3>
 
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-xs-12<!-- IF sets.installed.preview --> col-sm-7<!-- ENDIF sets.installed.preview -->">
-                <div class="well well-sm<!-- IF !sets.installed.preview --> no-margin-bottom<!-- ENDIF !sets.installed.preview -->">
-                  {sets.installed.description}
-                </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-xs-12<!-- IF sets.installed.preview --> col-sm-7<!-- ENDIF sets.installed.preview -->">
+              <div
+                  class="well well-sm<!-- IF !sets.installed.preview --> no-margin-bottom<!-- ENDIF !sets.installed.preview -->">
+                {sets.installed.description}
               </div>
-              <!-- IF sets.installed.preview -->
-                <div class="col-xs-12 col-sm-5">
-                  <div class="preview-block center-block">
-                    <img class="img-responsive thumbnail center-block no-margin-bottom" src="{sets.installed.preview}"/>
-                  </div>
-                </div>
-              <!-- ENDIF sets.installed.preview -->
             </div>
+            <!-- IF sets.installed.preview -->
+            <div class="col-xs-12 col-sm-5">
+              <div class="preview-block center-block">
+                <img class="img-responsive thumbnail center-block no-margin-bottom" src="{sets.installed.preview}"/>
+              </div>
+            </div>
+            <!-- ENDIF sets.installed.preview -->
           </div>
+        </div>
 
-          <div class="panel-footer">
-            <div class="row">
-              <div class="col-xs-12 col-sm-6 col-lg-3">
-                <a class="set-action set-activate btn btn-block btn-sm btn-success" disabled>
-                  <i class="fa fa-fw fa-power-off"></i> [[@{iD}:set.activate]]
-                </a>
-              </div>
-              <!-- IF !sets.installed.static -->
-                <div class="col-xs-12 hidden-sm hidden-md col-lg-3">
-                  <a class="set-action set-update btn btn-block btn-sm btn-info" disabled>
-                    <i class="fa fa-fw fa-refresh"></i> [[@{iD}:set.update]]
-                  </a>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-lg-3">
-                  <a class="set-action set-purge btn btn-block btn-sm btn-warning" disabled>
-                    <i class="fa fa-fw fa-eraser"></i> [[@{iD}:set.purge]]
-                  </a>
-                </div>
-                <div class="col-sm-6 hidden-xs hidden-lg">
-                  <a class="set-action set-update btn btn-block btn-sm btn-info" disabled>
-                    <i class="fa fa-fw fa-refresh"></i> [[@{iD}:set.update]]
-                  </a>
-                </div>
-              <!-- ENDIF !sets.installed.static -->
-              <div class="col-xs-12 col-sm-6 col-lg-3<!-- IF sets.installed.static --> col-lg-offset-6<!-- ENDIF sets.installed.static -->">
-                <a class="set-action set-uninstall btn btn-block btn-sm btn-danger" disabled
-                   title="This feature is not yet implemented. Sorry!">
-                  <i class="fa fa-fw fa-trash-o"></i> [[@{iD}:set.uninstall]]
-                </a>
-              </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-xs-12 col-sm-6 col-lg-3">
+              <a class="set-action set-activate btn btn-block btn-sm btn-success" disabled>
+                <i class="fa fa-fw fa-power-off"></i> [[@{iD}:set.activate]]
+              </a>
+            </div>
+            <!-- IF !sets.installed.static -->
+            <div class="col-xs-12 hidden-sm hidden-md col-lg-3">
+              <a class="set-action set-update btn btn-block btn-sm btn-info" disabled>
+                <i class="fa fa-fw fa-refresh"></i> [[@{iD}:set.update]]
+              </a>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-lg-3">
+              <a class="set-action set-purge btn btn-block btn-sm btn-warning" disabled>
+                <i class="fa fa-fw fa-eraser"></i> [[@{iD}:set.purge]]
+              </a>
+            </div>
+            <div class="col-sm-6 hidden-xs hidden-lg">
+              <a class="set-action set-update btn btn-block btn-sm btn-info" disabled>
+                <i class="fa fa-fw fa-refresh"></i> [[@{iD}:set.update]]
+              </a>
+            </div>
+            <!-- ENDIF !sets.installed.static -->
+            <div
+                class="col-xs-12 col-sm-6 col-lg-3<!-- IF sets.installed.static --> col-lg-offset-6<!-- ENDIF sets.installed.static -->">
+              <a class="set-action set-uninstall btn btn-block btn-sm btn-danger" disabled
+                 title="This feature is not yet implemented. Sorry!">
+                <i class="fa fa-fw fa-trash-o"></i> [[@{iD}:set.uninstall]]
+              </a>
             </div>
           </div>
         </div>
+      </div>
       <!-- END sets.installed -->
     </div>
   </div>
@@ -192,36 +249,40 @@
   <div class="tab-pane fade" id="download">
     <div id="install-sets-container" class="sets-container">
       <!-- BEGIN sets.notInstalled -->
-        <!-- TODO do not show sets that ain't compatible with current NodeBB version as of NBBPM -->
-        <div class="panel panel-default set-container install-set-container" data-set-id="{sets.notInstalled.id}">
-          <h3 class="panel-heading">{sets.notInstalled.name} <small>{sets.notInstalled.module}</small></h3>
+      <!-- TODO do not show sets that ain't compatible with current NodeBB version as of NBBPM -->
+      <div class="panel panel-default set-container install-set-container" data-set-id="{sets.notInstalled.id}">
+        <h3 class="panel-heading">{sets.notInstalled.name}
+          <small>{sets.notInstalled.module}</small>
+        </h3>
 
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-xs-12<!-- IF sets.notInstalled.preview --> col-sm-7<!-- ENDIF sets.notInstalled.preview -->">
-                <div class="well well-sm<!-- IF !sets.notInstalled.preview --> no-margin-bottom<!-- ENDIF !sets.notInstalled.preview -->">
-                  {sets.notInstalled.description}
-                </div>
+        <div class="panel-body">
+          <div class="row">
+            <div
+                class="col-xs-12<!-- IF sets.notInstalled.preview --> col-sm-7<!-- ENDIF sets.notInstalled.preview -->">
+              <div
+                  class="well well-sm<!-- IF !sets.notInstalled.preview --> no-margin-bottom<!-- ENDIF !sets.notInstalled.preview -->">
+                {sets.notInstalled.description}
               </div>
-              <!-- IF sets.notInstalled.preview -->
-                <div class="col-xs-12 col-sm-5">
-                  <div class="preview-block center-block">
-                    <img class="img-responsive thumbnail center-block no-margin-bottom"
-                         src="{sets.notInstalled.preview}"/>
-                  </div>
-                </div>
-              <!-- ENDIF sets.notInstalled.preview -->
             </div>
-          </div>
-
-          <div class="panel-footer">
-            <!-- TODO add functionality to action -->
-            <a class="set-action set-install btn btn-block btn-sm btn-default" disabled
-               title="This feature is not yet implemented. Sorry!">
-              <i class="fa fa-fw fa-download"></i> [[@{iD}:set.install]]
-            </a>
+            <!-- IF sets.notInstalled.preview -->
+            <div class="col-xs-12 col-sm-5">
+              <div class="preview-block center-block">
+                <img class="img-responsive thumbnail center-block no-margin-bottom"
+                     src="{sets.notInstalled.preview}"/>
+              </div>
+            </div>
+            <!-- ENDIF sets.notInstalled.preview -->
           </div>
         </div>
+
+        <div class="panel-footer">
+          <!-- TODO add functionality to action -->
+          <a class="set-action set-install btn btn-block btn-sm btn-default" disabled
+             title="This feature is not yet implemented. Sorry!">
+            <i class="fa fa-fw fa-download"></i> [[@{iD}:set.install]]
+          </a>
+        </div>
+      </div>
       <!-- END sets.notInstalled -->
     </div>
   </div>
@@ -238,3 +299,4 @@
 <script type="text/javascript" src="{relative_path}/plugins/@{name}/scripts/admin/sets/data.js"></script>
 <script type="text/javascript" src="{relative_path}/plugins/@{name}/scripts/admin/sets/dom.js"></script>
 <script type="text/javascript" src="{relative_path}/plugins/@{name}/scripts/admin/sets/main.js"></script>
+<script type="text/javascript" src="{relative_path}/plugins/@{name}/scripts/admin/sets/options.js"></script>
