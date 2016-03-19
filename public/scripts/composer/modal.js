@@ -43,7 +43,7 @@ define("@{type.name}/@{id}/composer/modal", [
 
   /*=================================================== Functions  ===================================================*/
 
-  function showModal($textarea, selectionStart, selectionEnd) {
+  function showModal(textarea, selectionStart, selectionEnd) {
     debug.log("modal requested");
     var titleDefer = $.Deferred();
     translator.translate("[[@{iD}:modal.title]]", function (title) { titleDefer.resolve(title); });
@@ -64,10 +64,10 @@ define("@{type.name}/@{id}/composer/modal", [
             var text = ":" + item.id + ": ";
             var newSelectionEnd = selectionEnd + text.length;
             var newSelectionStart = selectionStart === selectionEnd ? newSelectionEnd : selectionStart;
-            composer.updateTextareaSelection($textarea, selectionEnd, selectionEnd);
-            composer.insertIntoTextarea($textarea, text);
-            composer.updateTextareaSelection($textarea, newSelectionStart, newSelectionEnd);
-            $textarea.trigger("input");
+            composer.updateTextareaSelection(textarea, selectionEnd, selectionEnd);
+            composer.insertIntoTextarea(textarea, text);
+            composer.updateTextareaSelection(textarea, newSelectionStart, newSelectionEnd);
+            $(textarea).trigger("input");
           }
         });
   }
