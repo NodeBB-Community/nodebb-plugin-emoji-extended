@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-emoji-extended",
-  "version": "1.0.3+@{build}",
+  "version": "1.0.4+@{build}",
   "description": "Adds extended functionality of Emoji into NodeBB",
   "main": "lib/controller.js",
   "author": "Ole Reglitzki <frissdiegurke@protonmail.com> (https://github.com/frissdiegurke)",
