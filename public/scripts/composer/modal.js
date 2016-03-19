@@ -67,7 +67,7 @@ define("@{type.name}/@{id}/composer/modal", [
             composer.updateTextareaSelection($textarea, selectionEnd, selectionEnd);
             composer.insertIntoTextarea($textarea, text);
             composer.updateTextareaSelection($textarea, newSelectionStart, newSelectionEnd);
-            // TODO trigger preview-update
+            $textarea.trigger("input");
           }
         });
   }
