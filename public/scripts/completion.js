@@ -90,8 +90,12 @@
 
       function search(text, cb) {
         if (!detection.allowCompletion(text)) { return cb([]); }
-        var substring = text.match(/:([\w\d\+-]*)$/)[1].toLowerCase();
-        return cb($.grep(items.list, function (emoji) { return emoji.id.indexOf(substring) !== -1; }).sort(function(a, b) { return a.id.indexOf(substring) - b.id.indexOf(substring); }));
+        var matcher = text.match(/:([\w\d\+-]*)$/)[1].toLowerCase();
+        var list = $.grep(items.list, function (emoji) { return emoji.id.indexOf(matcher) !== -1; });
+        // stable sort by indexOf(matcher)
+        $.each(list, function (i, emoji) { emoji.idx = i; });
+        list = list.sort(function (a, b) { return a.id.indexOf(matcher) - b.id.indexOf(matcher) || a.idx - b.idx; });
+        return cb(list);
       }
 
       function getPath(item) {
