@@ -90,8 +90,8 @@
 
       function search(text, cb) {
         if (!detection.allowCompletion(text)) { return cb([]); }
-        var prefix = text.match(/:([\w\d\+-]*)$/)[1].toLowerCase();
-        return cb($.grep(items.list, function (emoji) { return emoji.id.startsWith(prefix); }));
+        var substring = text.match(/:([\w\d\+-]*)$/)[1].toLowerCase();
+        return cb($.grep(items.list, function (emoji) { return emoji.id.indexOf(substring) !== -1; }).sort(function(a, b) { return a.id.indexOf(substring) - b.id.indexOf(substring); }));
       }
 
       function getPath(item) {
