@@ -40,13 +40,13 @@ define("@{type.name}/@{id}/composer/modal", [
   /*==================================================== Exports  ====================================================*/
 
   return {
-    open: open,
-    openAndInsert: openAndInsert
+    open: openModal,
+    openAndInsert: openModalAndInsert
   };
 
   /*=================================================== Functions  ===================================================*/
 
-  function open() {
+  function openModal() {
     var titleDefer = $.Deferred();
     debug.log("modal requested");
     translator.translate("[[@{iD}:modal.title]]", function (title) { titleDefer.resolve(title); });
@@ -72,8 +72,8 @@ define("@{type.name}/@{id}/composer/modal", [
         });
   }
 
-  function openAndInsert(textarea, selectionStart, selectionEnd) {
-    return open()
+  function openModalAndInsert(textarea, selectionStart, selectionEnd) {
+    return openModal()
         .then(function (item) {
           var text = ":" + item.id + ": ";
           var newSelectionEnd = selectionEnd + text.length;
