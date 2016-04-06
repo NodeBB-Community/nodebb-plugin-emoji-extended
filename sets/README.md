@@ -45,9 +45,12 @@ If property `key` cannot be resolved and a `[String] fallback` is specified, thi
 An `Emoji` object is required to provide at least `[String] id`.
 It may also provide the following attributes:
 
+* `[String[]] aliases` - Aliases for the emoji.
 * `[String] category` - The category of the emoji (within emoji modal, default: `"others"`).
 * `[String] file` - The filename of the emoji (if it differs from the id).
 * `[String] classes` - Extra class names for the emoji.
+* `[Number] width` - Width for the emoji in pixels (gets added to generated `img` tags).
+* `[Number] height` - Height for the emoji in pixels (gets added to generated `img` tags).
 
 
 Some *official* sets for further help:

@@ -1,6 +1,7 @@
 (function () {
   "use strict";
 
+  var EMPTY_ARRAY = [];
   var DATA_PROPERTY = "@{id}-strategy";
   var DEFAULT_OPTIONS = {
     zIndex: 20000,
@@ -62,6 +63,8 @@
 
       var regexSource = "^((([\\s\\S]*)(" + completion.prefix + ")):[\\w\\d+-]{" + completion.minChars + ",})$";
 
+      $.each(items.list, function (ignored, emoji) { if (!$.isArray(emoji.aliases)) { emoji.aliases = EMPTY_ARRAY; } });
+
       var exports = {
         strategy: {
           match: new RegExp(regexSource, "i"),
@@ -91,10 +94,22 @@
       function search(text, cb) {
         if (!detection.allowCompletion(text)) { return cb([]); }
         var matcher = text.match(/:([\w\d\+-]*)$/)[1].toLowerCase();
-        var list = $.grep(items.list, function (emoji) { return emoji.id.indexOf(matcher) !== -1; });
+        var list = $.grep(items.list, function (emoji) {
+          if (emoji.id.indexOf(matcher) !== -1) { return true; }
+          var _len = emoji.aliases.length;
+          for (var i = 0; i < _len; i++) { if (emoji.aliases[i].indexOf(matcher) !== -1) { return true; } }
+          return false;
+        });
         // stable sort by indexOf(matcher)
         $.each(list, function (i, emoji) { emoji.idx = i; });
-        list = list.sort(function (a, b) { return a.id.indexOf(matcher) - b.id.indexOf(matcher) || a.idx - b.idx; });
+        list = list.sort(function (a, b) {
+          var aMatch = a.id.indexOf(matcher), bMatch = b.id.indexOf(matcher);
+          if (aMatch === -1) {
+            if (bMatch === -1) { return a.idx - b.idx; } else { return 1; }
+          } else {
+            if (bMatch === -1) { return -1; } else { return aMatch - bMatch || a.idx - b.idx; }
+          }
+        });
         return cb(list);
       }
 
