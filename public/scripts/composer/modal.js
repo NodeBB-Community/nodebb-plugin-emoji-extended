@@ -98,7 +98,7 @@ define("@{type.name}/@{id}/composer/modal", [
     $.each(categories, function (i, category) {
       var title = category.title;
       //noinspection HtmlUnknownAnchorTarget
-      var $navLink = $("<a href=\"#emoji-" + title + "\" data-toggle=\"tab\">" + title + "</a>");
+      var $navLink = $("<a href=\"#emoji-" + title + "\" data-toggle=\"tab\" data-ajaxify=\"false\">" + title + "</a>");
       var $navItem = $("<li></li>").append($navLink).appendTo($navigation);
       var $contentItem = getCategoryContent(category, completion)
           .addClass("tab-pane fade")
