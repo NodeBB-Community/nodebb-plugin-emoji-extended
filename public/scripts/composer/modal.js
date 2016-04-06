@@ -39,42 +39,55 @@ define("@{type.name}/@{id}/composer/modal", [
 
   /*==================================================== Exports  ====================================================*/
 
-  return {open: showModal};
+  return {
+    open: open,
+    openAndInsert: openAndInsert
+  };
 
   /*=================================================== Functions  ===================================================*/
 
-  function showModal(textarea, selectionStart, selectionEnd) {
-    debug.log("modal requested");
+  function open() {
     var titleDefer = $.Deferred();
+    debug.log("modal requested");
     translator.translate("[[@{iD}:modal.title]]", function (title) { titleDefer.resolve(title); });
 
     return $.when(initialized, settingsDefer, completionDefer, titleDefer)
         .then(function (categories, settings, completion, title) {
+          var defer = $.Deferred();
           var $bootbox = bootbox.dialog({
             size: "large",
             title: title,
-            message: getModalContent(categories, settings, completion, emojiAction),
-            onEscape: true
+            message: getModalContent(categories, settings, completion, defer),
+            onEscape: function () { defer.reject(); }
           });
           $bootbox.addClass("@{id}-modal");
           debug.log("modal ready");
-
-          function emojiAction(item) {
-            $bootbox.modal("hide");
-            var text = ":" + item.id + ": ";
-            var newSelectionEnd = selectionEnd + text.length;
-            var newSelectionStart = selectionStart === selectionEnd ? newSelectionEnd : selectionStart;
-            composer.updateTextareaSelection(textarea, selectionEnd, selectionEnd);
-            composer.insertIntoTextarea(textarea, text);
-            composer.updateTextareaSelection(textarea, newSelectionStart, newSelectionEnd);
-            $(textarea).trigger("input");
-          }
+          if (debug.enabled) { defer = defer.fail(function (err) { debug.log("modal dismissed", err); }); }
+          return defer
+              .then(function (item) {
+                debug.log("modal success", item);
+                $bootbox.modal("hide");
+                return item;
+              });
         });
   }
 
-  function getModalContent(categories, settings, completion, onClick) {
+  function openAndInsert(textarea, selectionStart, selectionEnd) {
+    return open()
+        .then(function (item) {
+          var text = ":" + item.id + ": ";
+          var newSelectionEnd = selectionEnd + text.length;
+          var newSelectionStart = selectionStart === selectionEnd ? newSelectionEnd : selectionStart;
+          composer.updateTextareaSelection(textarea, selectionEnd, selectionEnd);
+          composer.insertIntoTextarea(textarea, text);
+          composer.updateTextareaSelection(textarea, newSelectionStart, newSelectionEnd);
+          $(textarea).trigger("input");
+        });
+  }
+
+  function getModalContent(categories, settings, completion, defer) {
     var $wrapper = getModalTabbedContent(categories, settings, completion);
-    $wrapper.on("click", ".emoji-link", function () { onClick($(this).data("item")); });
+    $wrapper.on("click", ".emoji-link", function () { defer.resolve($(this).data("item")); });
     return $wrapper;
   }
 
