@@ -1,9 +1,11 @@
-require(["composer/formatting"], function (composer) {
+$(window).on("action:composer.enhanced", function () {
   "use strict";
 
-  composer.addButtonDispatch("@{id}", function (textarea, selectionStart, selectionEnd) {
-    require(["@{type.name}/@{id}/composer/modal"], function (modal) {
-      modal.openAndInsert(textarea, selectionStart, selectionEnd);
+  require(["composer/formatting"], function (composer) {
+    composer.addButtonDispatch("@{id}", function (textarea, selectionStart, selectionEnd) {
+      require(["@{type.name}/@{id}/composer/modal"], function (modal) {
+        modal.openAndInsert(textarea, selectionStart, selectionEnd);
+      });
     });
   });
 });

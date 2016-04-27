@@ -1,6 +1,7 @@
 {
   "name": "@{nbbpm.name}",
   "version": "@{>version}",
+  "composer.title": "Emoji",
   "modal.title": "Available Emoticons",
   "modal.legal": "Legal Information",
   "modal.legal.header": "The images used belong to different image <em>sets</em>. Which set an image belongs to is stated within the <code>data-set-id</code> HTML attribute.",
